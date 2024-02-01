@@ -1,5 +1,5 @@
-// first we need to fetch html page so, we construct a function  
-// below function name "fetchtmlpage" fetch HTML page data from Time.com and store this in pagetext
+// first we need to fetch the HTML page so, we construct a function  
+// below function name "page text" fetches HTML page data from Time.com and stores this in pagetext
 async function pageText() {
     const r = await fetch('https://time.com');
     const pagetext = await r.text();
@@ -7,21 +7,21 @@ async function pageText() {
     return pagetext;
 }
 
-// this function 'SixLatestStories' find the latest 6 stories from owr pagetext 
-// store this 6 latest stories in "topSixStories" array 
+// this function 'SixLatestStories' find the latest 6 stories from our pagetext 
+// store these 6 latest stories in "topSixStories" array 
 
 function SixLatestStories(pagetext) {
     
-    // In the website time.com there latest stories is define in list form 
+    //On the website time.com the latest stories is defined in list form 
     // look like this --> <li class="latest-stories__item">
-    // for this we create a regular expression 
+    //For this we create a regular expression 
     const re = /<li class="latest-stories__item">([\s\S]*?)<\/li>/gi;
 
-    // now find the matched text of regular expression in text   
+    //Now find the matched text of regular expression in text   
     const matchedtext = pagetext.match(re);
     // console.log(matchedtext);
 
-    // create topsixstories array to store all top 6 latest stories 
+    //Create topsixstories array to store all the top 6 latest stories 
     const topSixStories = [];
     
     if(matchedtext) {
@@ -54,7 +54,7 @@ function SixLatestStories(pagetext) {
             else{
                 link=  'Link not found';
             } 
-            // push the mathed title and links 
+            //Push the matched title and links 
             topSixStories.push({ title, link});
         };
     }
@@ -65,7 +65,7 @@ function SixLatestStories(pagetext) {
 async function getAPI() {
         const text = await pageText();
         const top_six = SixLatestStories(text);
-        // objrect to json format
+        // object to json format
         console.log(JSON.stringify(top_six, null,3));    
 }
 
